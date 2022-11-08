@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Main {
-    static int savings = 0; //gibt an, ob bereits gespeichert wurde
-    static Container c = Container.getInstance();   //Container
-    static PersistenceStrategy PS = new PersistanceStrategyStream();    //persistent Abspeichern
+    private static int savings = 0; //gibt an, ob bereits gespeichert wurde
+    private static Container c = Container.getInstance();   //Container
+    private static PersistenceStrategy PS = new PersistanceStrategyStream();    //persistent Abspeichern
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);    //scanner
@@ -101,7 +101,7 @@ public class Main {
                 System.out.print("\t Force oder Merge?\n");
                 System.out.println("\t\t'force': ersetzt ihre eingegebenen Daten mit den gespeicherten");
                 System.out.println("\t\t'merge': Fügt die gespeicherten Daten zu den eingegeben, wobei redundante IDs nicht hinzugefügt werden");
-                System.out.print("\t\t> ");
+                System.out.print("> ");
                 if(sc.next().equals("force")) {
                     try {
                         //das forcen überschreibt die aktuelle Liste durch Ersetzen
@@ -132,7 +132,7 @@ public class Main {
                     //sollte noch nicht gespeichert worden sein wird abgefragt, ob man vor dem Verlassen speichern möchte
                     System.out.println("Sie haben noch nicht gespeichert!\nMöchten sie jetzt speichern?");
                     System.out.println("\t'y': ja \n\t'n': nein");
-                    System.out.print("\t> ");
+                    System.out.print("> ");
                     String dochSave = sc.next();
                     if (dochSave.equals("y")) {
                         store();
@@ -151,8 +151,8 @@ public class Main {
                 String searchWord = sc.next();
                 if(searchCategory.equals("Expertise")) {
                     //falls nach Expertisen gesucht wird kann entschieden werden, ob man auch nach Leveln suchen möchte
-                    System.out.println("Möchten sie nach Leveln filtern?\n\t-'y': ja\n\t-'n': nein");
-                    System.out.print("\t> ");
+                    System.out.println("Möchten sie nach Leveln filtern?\n-'y': ja\n-'n': nein");
+                    System.out.print("> ");
                     if(sc.next().equals("y")) {
                         System.out.print("Level der Expertise: ");
                         Integer level = Integer.parseInt(sc.next());
@@ -196,7 +196,7 @@ public class Main {
      * Gibt eine Liste in Tabellenform aus
      * @param list Liste, die ausgegeben werden soll
      */
-    private static void toDump(List<Member> list) {
+    public static void toDump(List<Member> list) {
         //List<Member> liste = c.getCurrentList();
         //System.out.println("---------------------------------------------------------------------------------------");
         System.out.printf("%3s %15s %15s %15s %15s", "ID", "Vorname", "Name", "Rolle", "Abteilung");
@@ -228,7 +228,7 @@ public class Main {
      * @param word Begriff. nachdem gesucht wird
      * @return Liste der gefundenen Mitarbeiter, die mit den gesuchten Mitarbeitern Uberschneidungen haben
      */
-    private static List<Member> search (String category, String word) {
+    public static List<Member> search (String category, String word) {
         List<Member> found = null;
         switch (category) {
             case "Vorname":
@@ -272,7 +272,7 @@ public class Main {
      * @param level Level, nachdem gesucht wird (bei der entsprechenden Expertise)
      * @return Liste der Member, die diese Expertise mit dem gesuchten Level haben
      */
-    private static List<Member> searchExpertise (String expertise, Integer level) {
+    public static List<Member> searchExpertise (String expertise, Integer level) {
         List<Member> found = new ArrayList<>();
         List<Member> memberMitExpertise = search("Expertise",expertise);
         for (int i = 0; i < memberMitExpertise.size(); i++) {
@@ -314,7 +314,7 @@ public class Main {
         } catch (PersistenceException e) {
             e.printStackTrace();
         } catch (ContainerException e) {
-            e.getMessage();
+            e.printStackTrace();
         }
     }
 }

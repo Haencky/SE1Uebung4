@@ -113,6 +113,10 @@ public class Container {
         pers.setLocation(location);
     }
 
-
+    public void reset () {
+        for(Member m : members) {
+            deleteMember(m.getID());
+        }
+    }
 
 }
